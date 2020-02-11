@@ -10,6 +10,7 @@
 #include "TimerManager.h"
 #include "Engine/EngineTypes.h"
 #include "UObject/NameTypes.h"
+#include "Enemy.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -103,18 +104,39 @@ void AMyCharacter::ShootTimer()
 
 	bool hasHit = GetWorld()->LineTraceSingleByChannel(hitInfo,  // Variable especial , inicio del rayo , final , y nombre del DefaultEngine.ini
 		cam->GetComponentLocation() + cam->GetForwardVector() * 100,
-		cam->GetComponentLocation() + cam->GetForwardVector() * 1000, ECC_GameTraceChannel3);
+		cam->GetComponentLocation() + cam->GetForwardVector() * 1000,
+		ECC_GameTraceChannel3);
 
 	DrawDebugLine(
 		GetWorld(),
 		cam->GetComponentLocation(),
-		cam->GetComponentLocation() + cam->GetForwardVector() * 1000, FColor::Red, false, 3);
+		cam->GetComponentLocation() + cam->GetForwardVector() * 1000, 
+		FColor::Red,
+		false, 
+		3);
 
-	if (hitInfo.bBlockingHit) // Corrobora si choco 
+	if (hitInfo.bBlockingHit ) // Corrobora si choco 
 	{
-		DrawDebugBox(GetWorld(), hitInfo.ImpactPoint, FVector(5, 5, 5), FColor::Blue, false, 2);
-	     
+		DrawDebugBox(GetWorld(), hitInfo.ImpactPoint, FVector(5, 5, 5), FColor::Blue, false, 2); //Dibuja un cuadrado done choco de la dimensiones Fvector
 
+
+		if (hitInfo.GetActor()) //Corrobora si choco contra un actor 
+		{
+			AEnemy* enemy = Cast<AEnemy>(hitInfo.GetActor());
+
+			UE_LOG(LogTemp, Warning, TEXT("Bone Name: %s"), *hitInfo.BoneName.ToString());  //Imprimo el nombre del hueso , hago la conversacion de a STRING , utilizar puntero *
+
+			if (enemy && damages.Contains(hitInfo.BoneName)) { //Corroboro si el enemigo casteo correctamente y si le doy a un hueso xd
+
+				float damagePercentage = damages[hitInfo.BoneName];
+				float TotalDamage = basedamage * damagePercentage;
+
+				enemy->life -= TotalDamage;
+
+				UE_LOG(LogTemp, Warning, TEXT("Damage Percentage: %f"), damagePercentage); //Imnprimos el porcentaje al daño asociado
+				UE_LOG(LogTemp, Warning, TEXT("Total Damage: %f"), TotalDamage);//Imprimimos el Daño directo
+			}
+		}
 	}
 }
 

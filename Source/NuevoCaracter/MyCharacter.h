@@ -17,14 +17,12 @@ public:
 
 	FTimerHandle shootTimer; //Timer para el disparo
 
-	UPROPERTY(EditAnywhere)
-		float rotationspeed = 45;
-	UPROPERTY(VisibleAnywhere)
-		class UCameraComponent* cam;
-	UPROPERTY(VisibleAnywhere)
-		class USkeletalMeshComponent* arms;
-	UPROPERTY(VisibleAnywhere)
-		class USkeletalMeshComponent* weapon;
+	UPROPERTY(EditAnywhere) float rotationspeed = 45; //Velocidad con la que rota la camara
+	UPROPERTY(VisibleAnywhere) class UCameraComponent* cam;
+	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* arms;
+	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* weapon;
+	UPROPERTY(EditAnywhere) TMap<FName, float> damages; //Mapeo de asosiacion de Huesos con Daño
+	UPROPERTY(VisibleAnywhere) float basedamage=100; //Daño que hace mi personaje
 
 private:
 
