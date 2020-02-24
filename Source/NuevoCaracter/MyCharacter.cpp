@@ -11,6 +11,8 @@
 #include "Engine/EngineTypes.h"
 #include "UObject/NameTypes.h"
 #include "Enemy.h"
+#include "Paredsita.h"
+
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -33,6 +35,10 @@ AMyCharacter::AMyCharacter()
 
 
 }
+
+
+
+
 
 void AMyCharacter::MoveForward(float dato)
 {
@@ -69,72 +75,113 @@ void AMyCharacter::StopJump()
 
 void AMyCharacter::StartShoot()
 {
-	GetWorldTimerManager().SetTimer(shootTimer, this, &AMyCharacter::ShootTimer, 0.1 , true);
-
-	/*FHitResult hitInfo; //Variable especial Creada para guardar los datos del TraceByChanel
-
-	bool hasHit =GetWorld()->LineTraceSingleByChannel(hitInfo,  // Variable especial , inicio del rayo , final , y nombre del DefaultEngine.ini
-									   cam->GetComponentLocation()+ cam->GetForwardVector() * 100,
-									   cam->GetComponentLocation()+ cam->GetForwardVector()*1000, ECC_GameTraceChannel3);
-	DrawDebugLine(
-		GetWorld(),
-		cam->GetComponentLocation(),
-		cam->GetComponentLocation() + cam->GetForwardVector() * 1000, FColor::Red ,false,3);
-
-	if (hasHit && hitInfo.GetActor()) // Corrobora si choco y sobre todo si choco contra un actor
-	{
-		 hitInfo.GetActor()->Destroy();
-	}
-	*/
-
-
+	GetWorld()->GetTimerManager().SetTimer(shootTimerHandle, this, &AMyCharacter::ShootTimer, 0.1, true);
 
 }
 
 void AMyCharacter::StopShoot()
 {
-	GetWorldTimerManager().ClearTimer(shootTimer);
+	GetWorldTimerManager().ClearTimer(shootTimerHandle);
 }
 
 void AMyCharacter::ShootTimer()
-
 {
+    shoot(1, 0);
 	
-	FHitResult hitInfo; //Variable especial Creada para guardar los datos del TraceByChanel
-
-	bool hasHit = GetWorld()->LineTraceSingleByChannel(hitInfo,  // Variable especial , inicio del rayo , final , y nombre del DefaultEngine.ini
-		cam->GetComponentLocation() + cam->GetForwardVector() * 100,
-		cam->GetComponentLocation() + cam->GetForwardVector() * 1000,
-		ECC_GameTraceChannel3);
-
-	DrawDebugLine(
-		GetWorld(),
-		cam->GetComponentLocation(),
-		cam->GetComponentLocation() + cam->GetForwardVector() * 1000, 
-		FColor::Red,
-		false, 
-		3);
-
-	if (hitInfo.bBlockingHit ) // Corrobora si choco 
-	{
-		DrawDebugBox(GetWorld(), hitInfo.ImpactPoint, FVector(5, 5, 5), FColor::Blue, false, 2); //Dibuja un cuadrado done choco de la dimensiones Fvector
+}
 
 
-		if (hitInfo.GetActor()) //Corrobora si choco contra un actor 
-		{
-			AEnemy* enemy = Cast<AEnemy>(hitInfo.GetActor());
 
-			UE_LOG(LogTemp, Warning, TEXT("Bone Name: %s"), *hitInfo.BoneName.ToString());  //Imprimo el nombre del hueso , hago la conversacion de a STRING , utilizar puntero *
+void AMyCharacter::StartShoot2()
+{
+	GetWorld()->GetTimerManager().SetTimer(shootTimerHandle2, this, &AMyCharacter::ShootTimer2, 0.1, true);
 
-			if (enemy && damages.Contains(hitInfo.BoneName)) { //Corroboro si el enemigo casteo correctamente y si le doy a un hueso xd
+}
 
-				float damagePercentage = damages[hitInfo.BoneName];
-				float TotalDamage = basedamage * damagePercentage;
+void AMyCharacter::StopShoot2()
+{
+	GetWorldTimerManager().ClearTimer(shootTimerHandle2);
+}
 
-				enemy->life -= TotalDamage;
+void AMyCharacter::ShootTimer2()
+{
+	shoot(6, 500);
 
-				UE_LOG(LogTemp, Warning, TEXT("Damage Percentage: %f"), damagePercentage); //Imnprimos el porcentaje al daño asociado
-				UE_LOG(LogTemp, Warning, TEXT("Total Damage: %f"), TotalDamage);//Imprimimos el Daño directo
+}
+
+
+
+
+
+
+void AMyCharacter::shoot(int amount, float shake)
+{
+	for (int i = 0; i < amount; i++) {
+
+		// FHitResult hitInfo; //Variable especial Creada para guardar los datos del TraceByChanel
+
+		TArray <FHitResult> hits;//Arreglo para guardar los hits del trace
+        float currentdamage = basedamage;
+
+		FVector shakevector;                                  //	Dispersion de la balas con el rango que le mando del Shootimer2
+		shakevector.X = FMath::RandRange(-shake, shake);    
+		shakevector.Y = FMath::RandRange(-shake, shake);
+		shakevector.Z = FMath::RandRange(-shake, shake);
+
+
+		GetWorld()->LineTraceMultiByChannel(hits,  // Variable especial , inicio del rayo , final , y nombre del DefaultEngine.ini
+			cam->GetComponentLocation() + cam->GetForwardVector() * 100,
+			cam->GetComponentLocation() + cam->GetForwardVector() * 10000+shakevector,
+			ECC_GameTraceChannel3);
+
+		// float numero = hits.Num();
+		//  UE_LOG(LogTemp, Warning, TEXT("Numero de hits: %f"), numero ); //Debug
+
+		DrawDebugLine(
+			GetWorld(),
+			cam->GetComponentLocation(),
+			cam->GetComponentLocation() + cam->GetForwardVector() * 10000 +shakevector,
+			FColor::Red,
+			false,
+			3);
+
+		for (int i = 0; i < hits.Num(); i++) {
+
+
+			FHitResult hitInfo = hits[i];
+
+			// if (hitInfo.bBlockingHit) // Corrobora si el trace bloqueo
+
+
+
+			DrawDebugBox(GetWorld(), hitInfo.ImpactPoint, FVector(5, 5, 5), FColor::Blue, false, 2); //Dibuja un cuadrado done choco de la dimensiones Fvector , no se olvide de sacar cuando overlapea
+
+			if (hitInfo.GetActor()) //Corrobora si choco contra un actor 
+			{
+				AParedsita* pared = Cast<AParedsita>(hitInfo.GetActor());
+
+				if (pared)
+				{
+					currentdamage -= pared->damageAabsorver;
+					// UE_LOG(LogTemp, Warning, TEXT("Cogio la  pared ")); //Debug
+				}
+				else {
+					// UE_LOG(LogTemp, Warning, TEXT("NO Cogio una puta mierda"));  //Debug
+					AEnemy* enemy = Cast<AEnemy>(hitInfo.GetActor()); //Casteo al Actor para poder restarle Daño
+
+					UE_LOG(LogTemp, Warning, TEXT("Bone Name: %s"), *hitInfo.BoneName.ToString());  //Imprimo el nombre del hueso , hago la conversacion de a STRING , utilizar puntero *
+
+					if (enemy && damages.Contains(hitInfo.BoneName)) { //Corroboro si el enemigo casteo correctamente y si le doy a un hueso xd
+
+						float damagePercentage = damages[hitInfo.BoneName];
+						float TotalDamage = currentdamage * damagePercentage;
+
+						enemy->life -= TotalDamage;
+
+						UE_LOG(LogTemp, Warning, TEXT("Damage Percentage: %f"), damagePercentage); //Imnprimos el porcentaje al daño asociado
+						UE_LOG(LogTemp, Warning, TEXT("Total Damage: %f"), TotalDamage);//Imprimimos el Daño directo
+					}
+				}
 			}
 		}
 	}
@@ -165,6 +212,9 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", EInputEvent::IE_Released, this, &AMyCharacter::StopJump);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::StartShoot);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AMyCharacter::StopShoot);
+	PlayerInputComponent->BindAction("Fire2", IE_Pressed, this, &AMyCharacter::StartShoot2);
+	PlayerInputComponent->BindAction("Fire2", IE_Released, this, &AMyCharacter::StopShoot2);
+
 
 }
 

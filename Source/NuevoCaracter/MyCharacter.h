@@ -15,7 +15,8 @@ public:
 	
 	AMyCharacter();
 
-	FTimerHandle shootTimer; //Timer para el disparo
+	FTimerHandle shootTimerHandle; 
+	FTimerHandle shootTimerHandle2;//Timer para el disparo
 
 	UPROPERTY(EditAnywhere) float rotationspeed = 45; //Velocidad con la que rota la camara
 	UPROPERTY(VisibleAnywhere) class UCameraComponent* cam;
@@ -23,6 +24,9 @@ public:
 	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* weapon;
 	UPROPERTY(EditAnywhere) TMap<FName, float> damages; //Mapeo de asosiacion de Huesos con Daño
 	UPROPERTY(VisibleAnywhere) float basedamage=100; //Daño que hace mi personaje
+	UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
+	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
+
 
 private:
 
@@ -32,10 +36,17 @@ private:
 	void TurnSides(float dato);
 	void StarJump();
 	void StopJump();
+
 	void StartShoot();
 	void StopShoot();
 	void ShootTimer();
 
+	void StartShoot2();
+	void StopShoot2();
+	void ShootTimer2();
+
+
+	void shoot(int amount , float shake);
 protected:
 	
 	virtual void BeginPlay() override;
