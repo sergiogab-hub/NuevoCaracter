@@ -16,4 +16,6 @@ public:
 	AParedsita();
 
 	UPROPERTY(EditAnywhere) float damageAabsorver;
+
+
 };

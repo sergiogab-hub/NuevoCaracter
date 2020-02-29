@@ -4,10 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Damageable.h"
+
+
 #include "Enemy.generated.h"
 
 UCLASS()
-class NUEVOCARACTER_API AEnemy : public ACharacter
+class NUEVOCARACTER_API AEnemy : public ACharacter , public IDamageable 
+
 {
 	GENERATED_BODY()
 
@@ -16,6 +20,10 @@ public:
 	AEnemy();
 
 	UPROPERTY(EditAnywhere) float life=100;
+	UPROPERTY(EditAnywhere) float MaxLife = 100;
+    UPROPERTY(EditAnywhere) TMap<FName, float> damages; //Mapeo de asosiacion de Huesos con Daño
 
-
+	
+	void Damage(float amount, FName boneName) override;
+	//void Heal(float amount) override;
 };

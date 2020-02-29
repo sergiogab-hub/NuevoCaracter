@@ -22,9 +22,10 @@ public:
 	UPROPERTY(VisibleAnywhere) class UCameraComponent* cam;
 	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* arms;
 	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* weapon;
-	UPROPERTY(EditAnywhere) TMap<FName, float> damages; //Mapeo de asosiacion de Huesos con Daño
 	UPROPERTY(VisibleAnywhere) float basedamage=100; //Daño que hace mi personaje
-	UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
+	UPROPERTY(VisibleAnywhere) float healamount = 10; //Daño que hace mi personaje
+
+    UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
 	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
 
 

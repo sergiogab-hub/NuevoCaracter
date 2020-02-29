@@ -12,6 +12,8 @@
 #include "UObject/NameTypes.h"
 #include "Enemy.h"
 #include "Paredsita.h"
+#include "Damageable.h"
+#include "Healeable.h"
 
 
 // Sets default values
@@ -30,7 +32,7 @@ AMyCharacter::AMyCharacter()
 	arms->SetupAttachment(cam);
 
 	weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
-	weapon->SetupAttachment(arms, "GripPoint");                      // D euna vez le dije que quiero que se quede atachado a la Mano
+	weapon->SetupAttachment(arms, "GripPoint");                      // De una vez le dije que quiero que se quede atachado a la Mano
 
 
 
@@ -105,7 +107,7 @@ void AMyCharacter::StopShoot2()
 
 void AMyCharacter::ShootTimer2()
 {
-	shoot(6, 500);
+	shoot(10, 1000);
 
 }
 
@@ -121,17 +123,17 @@ void AMyCharacter::shoot(int amount, float shake)
 		// FHitResult hitInfo; //Variable especial Creada para guardar los datos del TraceByChanel
 
 		TArray <FHitResult> hits;//Arreglo para guardar los hits del trace
-        float currentdamage = basedamage;
+		float currentdamage = basedamage;
 
 		FVector shakevector;                                  //	Dispersion de la balas con el rango que le mando del Shootimer2
-		shakevector.X = FMath::RandRange(-shake, shake);    
+		shakevector.X = FMath::RandRange(-shake, shake);
 		shakevector.Y = FMath::RandRange(-shake, shake);
 		shakevector.Z = FMath::RandRange(-shake, shake);
 
 
 		GetWorld()->LineTraceMultiByChannel(hits,  // Variable especial , inicio del rayo , final , y nombre del DefaultEngine.ini
 			cam->GetComponentLocation() + cam->GetForwardVector() * 100,
-			cam->GetComponentLocation() + cam->GetForwardVector() * 10000+shakevector,
+			cam->GetComponentLocation() + cam->GetForwardVector() * 10000 + shakevector,
 			ECC_GameTraceChannel3);
 
 		// float numero = hits.Num();
@@ -140,7 +142,7 @@ void AMyCharacter::shoot(int amount, float shake)
 		DrawDebugLine(
 			GetWorld(),
 			cam->GetComponentLocation(),
-			cam->GetComponentLocation() + cam->GetForwardVector() * 10000 +shakevector,
+			cam->GetComponentLocation() + cam->GetForwardVector() * 10000 + shakevector,
 			FColor::Red,
 			false,
 			3);
@@ -167,11 +169,17 @@ void AMyCharacter::shoot(int amount, float shake)
 				}
 				else {
 					// UE_LOG(LogTemp, Warning, TEXT("NO Cogio una puta mierda"));  //Debug
-					AEnemy* enemy = Cast<AEnemy>(hitInfo.GetActor()); //Casteo al Actor para poder restarle Daño
+					IDamageable* damageable = Cast<IDamageable>(hitInfo.GetActor()); //Casteo al Actor para poder restarle Daño
+					if (damageable) {
 
-					UE_LOG(LogTemp, Warning, TEXT("Bone Name: %s"), *hitInfo.BoneName.ToString());  //Imprimo el nombre del hueso , hago la conversacion de a STRING , utilizar puntero *
+						damageable->Damage(currentdamage, hitInfo.BoneName);// Envio los parametros ala funcion de Enemy
 
-					if (enemy && damages.Contains(hitInfo.BoneName)) { //Corroboro si el enemigo casteo correctamente y si le doy a un hueso xd
+						UE_LOG(LogTemp, Warning, TEXT("Bone Name: %s"), *hitInfo.BoneName.ToString()); //Imprimo el nombre del hueso , hago la conversacion de a STRING , utilizar puntero *
+
+					}
+
+
+					/*if (enemy && damages.Contains(hitInfo.BoneName)) { //Corroboro si el enemigo casteo correctamente y si le doy a un hueso xd
 
 						float damagePercentage = damages[hitInfo.BoneName];
 						float TotalDamage = currentdamage * damagePercentage;
@@ -180,19 +188,15 @@ void AMyCharacter::shoot(int amount, float shake)
 
 						UE_LOG(LogTemp, Warning, TEXT("Damage Percentage: %f"), damagePercentage); //Imnprimos el porcentaje al daño asociado
 						UE_LOG(LogTemp, Warning, TEXT("Total Damage: %f"), TotalDamage);//Imprimimos el Daño directo
-					}
+					} */
+					//Logica en Enemy
+
 				}
 			}
 		}
 	}
 }
 
-// Called when the game starts or when spawned
-void AMyCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
 
 // Called every frame
 void AMyCharacter::Tick(float DeltaTime)
@@ -200,6 +204,11 @@ void AMyCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+void AMyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 
 // Called to bind functionality to input
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
