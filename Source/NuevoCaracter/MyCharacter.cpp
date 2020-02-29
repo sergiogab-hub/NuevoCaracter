@@ -14,6 +14,9 @@
 #include "Paredsita.h"
 #include "Damageable.h"
 #include "Healeable.h"
+#include "LifeComponent.h"
+#include "Components/ShootComponent.h"
+
 
 
 // Sets default values
@@ -24,17 +27,27 @@ AMyCharacter::AMyCharacter()
 
 	// Crear  Componentes por el lado de codigo
 
+
+	life = CreateDefaultSubobject<ULifeComponent>("Life Component");
+
 	cam = CreateDefaultSubobject<UCameraComponent>("Cam"); //	Crear Componentes desde el lado de C++
 	cam->bUsePawnControlRotation = true;
 	cam->SetupAttachment(GetRootComponent());
 
+
+
+	shoot = CreateDefaultSubobject<UShootComponent>("Shoot Component");
+	shoot->SetupAttachment(cam);
+
 	arms = CreateDefaultSubobject<USkeletalMeshComponent>("Arms");
 	arms->SetupAttachment(cam);
 
+
+
 	weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
-	weapon->SetupAttachment(arms, "GripPoint");                      // De una vez le dije que quiero que se quede atachado a la Mano
-
-
+	weapon->SetupAttachment(arms, "GripPoint");     // De una vez le dije que quiero que se quede atachado a la Mano
+	
+	
 
 }
 
@@ -88,7 +101,8 @@ void AMyCharacter::StopShoot()
 
 void AMyCharacter::ShootTimer()
 {
-    shoot(1, 0);
+	shoot->Shooting(1, 0);
+	shoot->ammo--;
 	
 }
 
@@ -107,7 +121,8 @@ void AMyCharacter::StopShoot2()
 
 void AMyCharacter::ShootTimer2()
 {
-	shoot(10, 1000);
+	shoot->Shooting(10, 1000);
+	shoot->ammo-=10;
 
 }
 
@@ -116,7 +131,7 @@ void AMyCharacter::ShootTimer2()
 
 
 
-void AMyCharacter::shoot(int amount, float shake)
+/*void AMyCharacter::shoot(int amount, float shake)
 {
 	for (int i = 0; i < amount; i++) {
 
@@ -188,7 +203,7 @@ void AMyCharacter::shoot(int amount, float shake)
 
 						UE_LOG(LogTemp, Warning, TEXT("Damage Percentage: %f"), damagePercentage); //Imnprimos el porcentaje al daño asociado
 						UE_LOG(LogTemp, Warning, TEXT("Total Damage: %f"), TotalDamage);//Imprimimos el Daño directo
-					} */
+					} 
 					//Logica en Enemy
 
 				}
@@ -196,7 +211,7 @@ void AMyCharacter::shoot(int amount, float shake)
 		}
 	}
 }
-
+*/
 
 // Called every frame
 void AMyCharacter::Tick(float DeltaTime)

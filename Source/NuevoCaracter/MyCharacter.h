@@ -22,9 +22,10 @@ public:
 	UPROPERTY(VisibleAnywhere) class UCameraComponent* cam;
 	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* arms;
 	UPROPERTY(VisibleAnywhere) class USkeletalMeshComponent* weapon;
-	UPROPERTY(VisibleAnywhere) float basedamage=100; //Daño que hace mi personaje
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
+	UPROPERTY(VisibleAnywhere) class UShootComponent* shoot;
+	
 	UPROPERTY(VisibleAnywhere) float healamount = 10; //Daño que hace mi personaje
-
     UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
 	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
 
@@ -47,7 +48,7 @@ private:
 	void ShootTimer2();
 
 
-	void shoot(int amount , float shake);
+	//void shoot(int amount , float shake);
 protected:
 	
 	virtual void BeginPlay() override;

@@ -2,33 +2,21 @@
 
 
 #include "Enemy.h"
+#include "LifeComponent.h"
 
 // Sets default values
 AEnemy::AEnemy()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	life = CreateDefaultSubobject<ULifeComponent>("Life Component");
 }
 
 
 
 void AEnemy::Damage(float amount, FName boneName)
 {
-	if (damages.Contains(boneName)) { //Corroboro si el enemigo casteo correctamente y si le doy a un hueso xd
-
-		float damagePercentage = damages[boneName];
-		float TotalDamage = amount * damagePercentage;
-
-		life -= TotalDamage;
-
-		if (life <= 0) {
-			Destroy();
-		}
-
-		UE_LOG(LogTemp, Warning, TEXT("Damage Percentage: %f"), damagePercentage); //Imnprimos el porcentaje al daño asociado
-		UE_LOG(LogTemp, Warning, TEXT("Total Damage: %f"), TotalDamage);//Imprimimos el Daño directo
-	}
+	life->TakeDamage(amount, boneName);
 }
 
 /*void AEnemy::Heal(float amount)

@@ -19,10 +19,10 @@ public:
 	// Sets default values for this character's properties
 	AEnemy();
 
-	UPROPERTY(EditAnywhere) float life=100;
+	UPROPERTY(EditAnywhere) float lifesita=100;
 	UPROPERTY(EditAnywhere) float MaxLife = 100;
-    UPROPERTY(EditAnywhere) TMap<FName, float> damages; //Mapeo de asosiacion de Huesos con Daño
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
 	
 	void Damage(float amount, FName boneName) override;
 	//void Heal(float amount) override;
