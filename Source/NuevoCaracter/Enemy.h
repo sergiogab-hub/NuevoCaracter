@@ -18,8 +18,7 @@ public:
 	// Sets default values for this character's properties
 	AEnemy();
 
-	UPROPERTY(EditAnywhere) float lifesita=100; //ELIMINAR
-	UPROPERTY(EditAnywhere) float MaxLife = 100; //ELIMINAR
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
 	/*AI*/UPROPERTY(EditAnywhere) TArray<class ATargetPoint*> waypoints; 

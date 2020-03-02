@@ -78,9 +78,15 @@ void AMyCharacter::TurnSides(float dato)
 	AddControllerYawInput(dato * rotationspeed * GetWorld()->GetDeltaSeconds()); //AddoControllerYawInput Aplica una Rotacion Horizontal
 }
 
+
+
+
+
 void AMyCharacter::StarJump()
 {
+	
 	Jump();
+	OnStarJump();
 }
 
 void AMyCharacter::StopJump()
@@ -88,15 +94,19 @@ void AMyCharacter::StopJump()
 	StopJumping();
 }
 
+
+
+
 void AMyCharacter::StartShoot()
 {
 	GetWorld()->GetTimerManager().SetTimer(shootTimerHandle, this, &AMyCharacter::ShootTimer, 0.1, true);
-
+	OnStartShoot();
 }
 
 void AMyCharacter::StopShoot()
 {
 	GetWorldTimerManager().ClearTimer(shootTimerHandle);
+	OnEndShoot();
 }
 
 void AMyCharacter::ShootTimer()
@@ -108,23 +118,23 @@ void AMyCharacter::ShootTimer()
 
 
 
-void AMyCharacter::StartShoot2()
-{
-	GetWorld()->GetTimerManager().SetTimer(shootTimerHandle2, this, &AMyCharacter::ShootTimer2, 0.1, true);
+	void AMyCharacter::StartShoot2()
+	{
+		GetWorld()->GetTimerManager().SetTimer(shootTimerHandle2, this, &AMyCharacter::ShootTimer2, 0.1, true);
 
-}
+	}
 
-void AMyCharacter::StopShoot2()
-{
-	GetWorldTimerManager().ClearTimer(shootTimerHandle2);
-}
+	void AMyCharacter::StopShoot2()
+	{
+		GetWorldTimerManager().ClearTimer(shootTimerHandle2);
+	}
 
-void AMyCharacter::ShootTimer2()
-{
-	shoot->Shooting(10, 1000);
-	shoot->ammo-=10;
+	void AMyCharacter::ShootTimer2()
+	{
+		shoot->Shooting(10, 1000);
+		shoot->ammo -= 10;
 
-}
+	}
 
 
 

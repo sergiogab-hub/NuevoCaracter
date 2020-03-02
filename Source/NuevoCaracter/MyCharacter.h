@@ -25,7 +25,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
 	UPROPERTY(VisibleAnywhere) class UShootComponent* shoot;
 	
-	UPROPERTY(VisibleAnywhere) float healamount = 10; //Daño que hace mi personaje
+	// UPROPERTY(VisibleAnywhere) float healamount = 10; //Heal que hace mi personaje
     UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
 	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
 
@@ -59,5 +59,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/*Partycle System*/ UFUNCTION(BlueprintImplementableEvent)void OnStartShoot();
+	/*Partycle System*/ UFUNCTION(BlueprintImplementableEvent)void OnEndShoot();
+	/*Partycle System*/ UFUNCTION(BlueprintImplementableEvent)void OnStarJump();
 
 };

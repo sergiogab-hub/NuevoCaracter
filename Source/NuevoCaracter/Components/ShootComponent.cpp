@@ -59,6 +59,9 @@ void UShootComponent::Shooting(int amount, float shake)
 
 			if (hitInfo.GetActor()) //Corrobora si choco contra un actor 
 			{
+
+				onHit.Broadcast(hitInfo.ImpactPoint);
+
 				AParedsita* pared = Cast<AParedsita>(hitInfo.GetActor());
 
 				if (pared)

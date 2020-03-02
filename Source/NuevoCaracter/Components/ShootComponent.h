@@ -7,6 +7,9 @@
 #include "ShootComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FShootHitDelegate, FVector, HitPoint); //Delegado para crear eventos en los BPP
+
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class NUEVOCARACTER_API UShootComponent : public USceneComponent
 {
@@ -17,6 +20,7 @@ public:
 	UPROPERTY (EditAnywhere) int ammo =100;
 	UPROPERTY(EditAnywhere) TSubclassOf<class AActor> bulletBlueprint;
 	UPROPERTY(VisibleAnywhere) float basedamage = 100; //Daño que hace mi personaje
+	UPROPERTY(BlueprintAssignable) FShootHitDelegate onHit;
 
 	void Shooting(int amount, float shake);
 };
