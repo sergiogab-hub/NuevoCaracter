@@ -5,12 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Damageable.h"
-
-
+#include "AI/Interfaces/PatrolObject.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class NUEVOCARACTER_API AEnemy : public ACharacter , public IDamageable 
+class NUEVOCARACTER_API AEnemy : public ACharacter , public IDamageable , public IPatrolObject
 
 {
 	GENERATED_BODY()
@@ -19,11 +18,14 @@ public:
 	// Sets default values for this character's properties
 	AEnemy();
 
-	UPROPERTY(EditAnywhere) float lifesita=100;
-	UPROPERTY(EditAnywhere) float MaxLife = 100;
+	UPROPERTY(EditAnywhere) float lifesita=100; //ELIMINAR
+	UPROPERTY(EditAnywhere) float MaxLife = 100; //ELIMINAR
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
+	/*AI*/UPROPERTY(EditAnywhere) TArray<class ATargetPoint*> waypoints; 
 	
 	void Damage(float amount, FName boneName) override;
+
+	/*AI*/TArray <class ATargetPoint*> GetWaypoints() override; // Defino mi propio funcion heredada de PátrolObjest
 	//void Heal(float amount) override;
 };
