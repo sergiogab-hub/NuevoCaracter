@@ -13,5 +13,14 @@ UCLASS()
 class NUEVOCARACTER_API UCheckDistanceService : public UBTService_BlackboardBase
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere) float minDistance;
+	UPROPERTY(EditAnywhere) FBlackboardKeySelector bbTarget ;
+	UPROPERTY(EditAnywhere) FBlackboardKeySelector bbCheck;
+
+
+protected:
+  void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 	
 };
