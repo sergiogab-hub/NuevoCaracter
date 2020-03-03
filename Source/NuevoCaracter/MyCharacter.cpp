@@ -17,6 +17,7 @@
 #include "LifeComponent.h"
 #include "Components/ShootComponent.h"
 #include "GetAnmo.h"
+#include "Potenciador.h"
 
 
 
@@ -118,14 +119,19 @@ void AMyCharacter::ShootTimer()
 	if (nuevaammo >= 0) {
 		shoot->ammo--;
 	}
+	else {
+		shoot->ammo = 0;
+	}
+	nuevaammo = shoot->ammo;
 }
 
 
 
 	void AMyCharacter::StartShoot2()
 	{
-		GetWorld()->GetTimerManager().SetTimer(shootTimerHandle2, this, &AMyCharacter::ShootTimer2, 0.1, true);
-
+		if (potenciador != false) {
+			GetWorld()->GetTimerManager().SetTimer(shootTimerHandle2, this, &AMyCharacter::ShootTimer2, 0.1, true);
+		}
 	}
 
 	void AMyCharacter::StopShoot2()
@@ -135,9 +141,25 @@ void AMyCharacter::ShootTimer()
 
 	void AMyCharacter::ShootTimer2()
 	{
-		shoot->Shooting(10, 1000);
-		shoot->ammo -= 10;
+		shoot->Shooting(6, 1200);
 
+		nuevaammo = shoot->ammo;
+	
+
+		
+		if (shoot->ammo >= 6)
+		{
+			shoot->ammo -= 6;
+
+		}
+		else {
+			shoot->ammo =0;
+		}
+
+		nuevaammo = shoot->ammo;
+		UE_LOG(LogTemp, Warning, TEXT("nuevaammo: %f"), nuevaammo);
+		UE_LOG(LogTemp, Warning, TEXT("ammo: %f"), shoot->ammo);
+		
 	}
 
 void AMyCharacter::reload()
@@ -238,12 +260,13 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (lifeOwn <= 0) {
+	if (lifeOwn <= 10) {
 
 		shoot->ammo = 0;
+		lifeOwn = 0;
 	}
 
-	if (lifeOwn > 100) {
+	if (lifeOwn >= 100) {
 		lifeOwn = 100;
 	}
 
@@ -280,14 +303,28 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	 if (pb != nullptr) {
 		 
 		
+		 if (shoot->ammo >= 70)
+		 {
+			 shoot->ammo = 100;
 
+		 }
+		 else {
 			 shoot->ammo += 30;
-			 nuevaammo = shoot->ammo;
-		
+		 }
 
+		
+		 nuevaammo = shoot->ammo;
+		// pb->Destroy();
 		 UE_LOG(LogTemp, Warning, TEXT("Overlapeo: %f"), nuevaammo);
 	 }
-	
-	
+	 
+	 APotenciador* pp = Cast <APotenciador>(other);
+
+	 if (pp != nullptr){
+
+		 potenciador = true;
+
+		 pp->Destroy();
+	 }
 }
 

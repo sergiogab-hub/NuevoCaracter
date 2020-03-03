@@ -29,8 +29,11 @@ public:
     UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
 	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
 
+	UPROPERTY(EditAnywhere) float shake2 = 0;//Dispersion del disparo
+	UPROPERTY(EditAnywhere) float amout2 = 0; // cantidad de disparos
+
 	UPROPERTY(BlueprintReadWrite) float lifeOwn=100;
-	bool isrealoaded = false;
+	bool potenciador = false;
 	float  nuevaammo;
 
 private:
