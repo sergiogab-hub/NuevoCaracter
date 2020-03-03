@@ -162,10 +162,10 @@ void AMyCharacter::ShootTimer()
 		
 	}
 
-void AMyCharacter::reload()
+void AMyCharacter::getlife()
 	{
 
-
+ 
 	}
 
 
@@ -262,21 +262,28 @@ void AMyCharacter::Tick(float DeltaTime)
 
 	if (lifeOwn <= 0) {
 
-		shoot->ammo = 0;
-		lifeOwn = 0;
+		SetActorLocation(posicioninicial);
+		SetActorRotation(rotacioninicial);
+		lifeOwn = 100;
+		potenciador = false;
+		nuevaammo = 100;
+		shoot->ammo = 100;
 	}
 
 	if (lifeOwn >= 100) {
 		lifeOwn = 100;
 	}
 
-
+	
 	
 }
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	OnActorBeginOverlap.AddDynamic(this, &AMyCharacter::OnOverlap);
+
+	posicioninicial = GetActorLocation();
+	rotacioninicial = GetActorRotation();
 }
 
 

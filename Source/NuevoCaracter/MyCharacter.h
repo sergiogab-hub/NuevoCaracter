@@ -33,8 +33,15 @@ public:
 	UPROPERTY(EditAnywhere) float amout2 = 0; // cantidad de disparos
 
 	UPROPERTY(BlueprintReadWrite) float lifeOwn=100;
-	UPROPERTY(BlueprintReadWrite) bool potenciador = false;
+	float lifeOwn1 = 100;
+	UPROPERTY(BlueprintReadWrite) bool potenciador = false; 
+	bool ponteancidor1 = false;
 	UPROPERTY (BlueprintReadWrite)float  nuevaammo=100;
+	float nuevaammo1 = 100;
+
+
+	FVector posicioninicial;
+	FRotator rotacioninicial;
 
 private:
 
@@ -53,7 +60,7 @@ private:
 	void StopShoot2();
 	void ShootTimer2();
 
-	void reload();
+	void getlife();
 
 
 	//void shoot(int amount , float shake);

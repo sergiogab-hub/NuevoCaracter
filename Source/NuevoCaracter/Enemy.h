@@ -19,7 +19,7 @@ public:
 	AEnemy();
 
 
-	UPROPERTY(BlueprintReadWrite) float lifeTotal;
+	UPROPERTY(BlueprintReadWrite) float lifeTotal=100;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
