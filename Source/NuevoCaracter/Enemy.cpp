@@ -25,6 +25,18 @@ void AEnemy::Damage(float amount, FName boneName)
 	return waypoints;
 }
 
+void AEnemy::Tick(float DeltaTime)
+{
+
+	Super::Tick(DeltaTime);
+
+	lifeTotal=life->GetLife();
+}
+
+
+
+
+
 /*void AEnemy::Heal(float amount)
 
 {

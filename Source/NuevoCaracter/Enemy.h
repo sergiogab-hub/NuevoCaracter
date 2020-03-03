@@ -19,6 +19,8 @@ public:
 	AEnemy();
 
 
+	UPROPERTY(BlueprintReadWrite) float lifeTotal;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) class ULifeComponent* life;
 	/*AI*/UPROPERTY(EditAnywhere) TArray<class ATargetPoint*> waypoints; 
@@ -27,4 +29,6 @@ public:
 
 	/*AI*/TArray <class ATargetPoint*> GetWaypoints() override; // Defino mi propio funcion heredada de PátrolObjest
 	//void Heal(float amount) override;
+
+	virtual void Tick(float DeltaTime) override;
 };

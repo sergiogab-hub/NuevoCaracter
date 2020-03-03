@@ -99,3 +99,8 @@ void UShootComponent::Shooting(int amount, float shake)
 		}
 	}
 }
+
+void UShootComponent::reloadMo()
+{
+	ammo += 30;
+}

@@ -23,4 +23,5 @@ public:
 	UPROPERTY(BlueprintAssignable) FShootHitDelegate onHit;
 
 	void Shooting(int amount, float shake);
+	void reloadMo();
 };

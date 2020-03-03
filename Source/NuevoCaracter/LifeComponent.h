@@ -14,11 +14,11 @@ class NUEVOCARACTER_API ULifeComponent : public UActorComponent
 
 public:	
 	
-	UPROPERTY(EditAnywhere) float life;
+	UPROPERTY(EditAnywhere) float life=100;
 	UPROPERTY(EditAnywhere) TMap<FName, float> damages; //Mapeo de asosiacion de Huesos con Daño
 	void TakeDamage(float amount , FName boneName);
 
-
+	float GetLife();
 
 		
 };

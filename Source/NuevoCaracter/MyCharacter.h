@@ -29,6 +29,7 @@ public:
     UPROPERTY(EditAnywhere) float shake; //Dispersion del disparo
 	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
 
+	UPROPERTY(BlueprintReadWrite) float lifeOwn=100;
 
 private:
 
@@ -46,6 +47,8 @@ private:
 	void StartShoot2();
 	void StopShoot2();
 	void ShootTimer2();
+
+	void reload();
 
 
 	//void shoot(int amount , float shake);

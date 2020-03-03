@@ -136,6 +136,13 @@ void AMyCharacter::ShootTimer()
 
 	}
 
+void AMyCharacter::reload()
+	{
+
+	shoot->reloadMo();
+
+	}
+
 
 
 
@@ -228,10 +235,21 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (lifeOwn <= 0) {
+
+		shoot->ammo = 0;
+	}
+
+	if (lifeOwn > 100) {
+		lifeOwn = 100;
+	}
+
+	
 }
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 

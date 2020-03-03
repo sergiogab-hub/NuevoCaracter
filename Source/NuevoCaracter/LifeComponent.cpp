@@ -22,3 +22,8 @@ void ULifeComponent::TakeDamage(float amount ,FName boneName)
 	}
 }
 
+float ULifeComponent::GetLife()
+{
+	return life;
+}
+

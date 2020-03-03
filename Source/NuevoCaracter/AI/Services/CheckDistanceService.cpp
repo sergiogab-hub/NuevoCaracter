@@ -22,7 +22,11 @@ void UCheckDistanceService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* N
 		FVector diff = controlledPawnLocation - targetActorLocation;
 		float dist = diff.Size();
 
-		if (dist <= minDistance) {
+
+		//UE_LOG(LogTemp, Warning, TEXT("Distancia Actual: %f"), dist); //Debug
+
+
+		if (dist >= minDistance) {
 
 			blackboardComp->SetValueAsBool(bbCheck.SelectedKeyName, true);
 		}
