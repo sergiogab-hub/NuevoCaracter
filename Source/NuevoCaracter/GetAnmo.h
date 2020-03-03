@@ -26,7 +26,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UFUNCTION()      //Es necesario llamar a Ufunction para que lo detecte
-		void OnOverlap(AActor* me, AActor* other);
+	
 
 };

@@ -30,6 +30,8 @@ public:
 	UPROPERTY(EditAnywhere) float amout; // cantidad de disparos
 
 	UPROPERTY(BlueprintReadWrite) float lifeOwn=100;
+	bool isrealoaded = false;
+	float  nuevaammo;
 
 private:
 
@@ -66,5 +68,10 @@ public:
 	/*Partycle System*/ UFUNCTION(BlueprintImplementableEvent)void OnStartShoot();
 	/*Partycle System*/ UFUNCTION(BlueprintImplementableEvent)void OnEndShoot();
 	/*Partycle System*/ UFUNCTION(BlueprintImplementableEvent)void OnStarJump();
+
+	 /*Conseguir Municion*/UFUNCTION() 
+		 void OnOverlap(AActor* me, AActor* other);
+
+
 
 };

@@ -16,6 +16,7 @@
 #include "Healeable.h"
 #include "LifeComponent.h"
 #include "Components/ShootComponent.h"
+#include "GetAnmo.h"
 
 
 
@@ -112,8 +113,11 @@ void AMyCharacter::StopShoot()
 void AMyCharacter::ShootTimer()
 {
 	shoot->Shooting(1, 0);
-	shoot->ammo--;
-	
+
+	nuevaammo = shoot->ammo;
+	if (nuevaammo >= 0) {
+		shoot->ammo--;
+	}
 }
 
 
@@ -139,7 +143,6 @@ void AMyCharacter::ShootTimer()
 void AMyCharacter::reload()
 	{
 
-	shoot->reloadMo();
 
 	}
 
@@ -244,12 +247,13 @@ void AMyCharacter::Tick(float DeltaTime)
 		lifeOwn = 100;
 	}
 
+
 	
 }
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	OnActorBeginOverlap.AddDynamic(this, &AMyCharacter::OnOverlap);
 }
 
 
@@ -268,5 +272,22 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Fire2", IE_Released, this, &AMyCharacter::StopShoot2);
 
 
+}
+
+ void AMyCharacter::OnOverlap(AActor* me, AActor* other)
+{
+	 AGetAnmo* pb = Cast <AGetAnmo>(other); //LLamo alo jugadorbase con le que se supone debo overlapear si el casteo es verdadero le quito a vida tanto daño
+	 if (pb != nullptr) {
+		 
+		
+
+			 shoot->ammo += 30;
+			 nuevaammo = shoot->ammo;
+		
+
+		 UE_LOG(LogTemp, Warning, TEXT("Overlapeo: %f"), nuevaammo);
+	 }
+	
+	
 }
 

@@ -2,7 +2,7 @@
 
 
 #include "GetAnmo.h"
-#include "MyCharacter.h"
+
 
 // Sets default values
 AGetAnmo::AGetAnmo()
@@ -16,7 +16,7 @@ AGetAnmo::AGetAnmo()
 void AGetAnmo::BeginPlay()
 {
 	Super::BeginPlay();
-	OnActorBeginOverlap.AddDynamic(this, &AGetAnmo::OnOverlap);
+	
 
 	
 }
@@ -28,12 +28,4 @@ void AGetAnmo::Tick(float DeltaTime)
 
 }
 
-void AGetAnmo::OnOverlap(AActor* me, AActor* other)
-{
-	AMyCharacter* pb = Cast <AMyCharacter>(other); //LLamo alo jugadorbase con le que se supone debo overlapear si el casteo es verdadero le quito a vida tanto daño
-	if (pb != nullptr) {
-		
-	}
-	Destroy();
-}
 
