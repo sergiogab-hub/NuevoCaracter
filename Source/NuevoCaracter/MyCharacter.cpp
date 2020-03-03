@@ -116,7 +116,7 @@ void AMyCharacter::ShootTimer()
 	shoot->Shooting(1, 0);
 
 	nuevaammo = shoot->ammo;
-	if (nuevaammo >= 0) {
+	if (nuevaammo >= 1) {
 		shoot->ammo--;
 	}
 	else {
@@ -260,7 +260,7 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (lifeOwn <= 10) {
+	if (lifeOwn <= 0) {
 
 		shoot->ammo = 0;
 		lifeOwn = 0;

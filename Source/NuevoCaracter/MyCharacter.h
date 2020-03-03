@@ -33,8 +33,8 @@ public:
 	UPROPERTY(EditAnywhere) float amout2 = 0; // cantidad de disparos
 
 	UPROPERTY(BlueprintReadWrite) float lifeOwn=100;
-	bool potenciador = false;
-	float  nuevaammo;
+	UPROPERTY(BlueprintReadWrite) bool potenciador = false;
+	UPROPERTY (BlueprintReadWrite)float  nuevaammo=100;
 
 private:
 
