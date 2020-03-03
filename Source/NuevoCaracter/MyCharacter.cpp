@@ -268,6 +268,7 @@ void AMyCharacter::Tick(float DeltaTime)
 		potenciador = false;
 		nuevaammo = 100;
 		shoot->ammo = 100;
+		vidas--;
 	}
 
 	if (lifeOwn >= 100) {
@@ -321,7 +322,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 		
 		 nuevaammo = shoot->ammo;
-		// pb->Destroy();
+		 pb->Destroy();
 		 UE_LOG(LogTemp, Warning, TEXT("Overlapeo: %f"), nuevaammo);
 	 }
 	 

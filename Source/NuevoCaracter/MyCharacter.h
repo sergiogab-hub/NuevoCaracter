@@ -33,11 +33,12 @@ public:
 	UPROPERTY(EditAnywhere) float amout2 = 0; // cantidad de disparos
 
 	UPROPERTY(BlueprintReadWrite) float lifeOwn=100;
-	float lifeOwn1 = 100;
+	
 	UPROPERTY(BlueprintReadWrite) bool potenciador = false; 
-	bool ponteancidor1 = false;
+
 	UPROPERTY (BlueprintReadWrite)float  nuevaammo=100;
-	float nuevaammo1 = 100;
+	
+	UPROPERTY(BlueprintReadWrite)float vidas = 3;
 
 
 	FVector posicioninicial;
