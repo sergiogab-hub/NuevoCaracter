@@ -38,13 +38,13 @@ void UShootComponent::Shooting(int amount, float shake)
 		// float numero = hits.Num();
 		//  UE_LOG(LogTemp, Warning, TEXT("Numero de hits: %f"), numero ); //Debug
 
-		DrawDebugLine(
+		/*DrawDebugLine(
 			GetWorld(),
 		  GetComponentLocation(),
 		    GetComponentLocation() + GetForwardVector() * 10000 + shakevector,
 			FColor::Red,
 			false,
-			3);
+			3);*/
 
 		for (int i = 0; i < hits.Num(); i++) {
 
@@ -55,7 +55,7 @@ void UShootComponent::Shooting(int amount, float shake)
 
 
 
-			DrawDebugBox(GetWorld(), hitInfo.ImpactPoint, FVector(5, 5, 5), FColor::Blue, false, 2); //Dibuja un cuadrado done choco de la dimensiones Fvector , no se olvide de sacar cuando overlapea
+			//DrawDebugBox(GetWorld(), hitInfo.ImpactPoint, FVector(5, 5, 5), FColor::Blue, false, 2); //Dibuja un cuadrado done choco de la dimensiones Fvector , no se olvide de sacar cuando overlapea
 
 			if (hitInfo.GetActor()) //Corrobora si choco contra un actor 
 			{

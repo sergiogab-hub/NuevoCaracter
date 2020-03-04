@@ -141,7 +141,7 @@ void AMyCharacter::ShootTimer()
 
 	void AMyCharacter::ShootTimer2()
 	{
-		shoot->Shooting(6, 1200);
+		shoot->Shooting(6, 1000);
 
 		nuevaammo = shoot->ammo;
 	

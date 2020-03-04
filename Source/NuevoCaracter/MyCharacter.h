@@ -40,6 +40,7 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)float vidas = 3;
 
+	
 
 	FVector posicioninicial;
 	FRotator rotacioninicial;
